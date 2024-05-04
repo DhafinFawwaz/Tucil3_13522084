@@ -1,0 +1,1 @@
+java -cp bin PreProcess -c ./src/Asset/dictionary.bin

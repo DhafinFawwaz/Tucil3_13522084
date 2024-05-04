@@ -1,0 +1,1 @@
+javac -d bin ./src/PreProcess.java -cp ./src

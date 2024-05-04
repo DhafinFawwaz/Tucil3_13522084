@@ -14,8 +14,14 @@ import Solver.WordLadderSolver;
 public class TestCaseRunner {
     public static void solveAndPrint(WordLadderSolver solver) throws Exception {
         SolutionData data = solver.Solve();
+        int i = 1;
         for (String word : data.getSolution()) {
+            System.out.print(i);
+            if(i < 10) System.out.print(".   ");
+            else if(i < 100) System.out.print(".  ");
+            else System.out.print(". ");
             System.out.println(word);
+            i++;
         }
         System.out.println("Time taken: " + data.getDuration() + " ms");
     }

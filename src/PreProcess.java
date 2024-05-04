@@ -179,7 +179,7 @@ public class PreProcess {
         long startTime = System.currentTimeMillis();
         System.out.println("Please wait, this is a multithreaded process...");
         IntStream.range(0, preProcessData.size()).parallel().forEach(i -> {
-            System.out.println("Processing length " + i);
+            System.out.println("Processing words with length " + i);
 
             // For each key in certain length
             var entrySet = preProcessData.get(i).entrySet();

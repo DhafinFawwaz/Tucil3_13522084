@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import Component.Fonts;
 import Component.MainWindow;
-import Solver.GraphNode;
+import Solver.GraphAdjacencyMap;
 
 class Main{
     public static void main(String[] args){
-        ArrayList<GraphNode> graphList = GraphNode.createListFromBinaryFile("src/Asset/dictionary.bin");
+        ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile("src/Asset/dictionary.bin");
         Fonts.LoadFont();        
         MainWindow window = new MainWindow(graphList);
     }

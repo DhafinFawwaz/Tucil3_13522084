@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+import Solver.GraphAdjacencyMap;
 import Solver.GraphNode;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class PreProcess {
 
     // Human readable version, serialize as bytes for faster reading
     // Write preProcessData to file as bytes, each in different file. 1.txt, 2.txt, 3.txt, ...
-    public static void writeMultipleHumanReadable(ArrayList<GraphNode> preProcessData, String preProcessResultPath){
+    public static void writeMultipleHumanReadable(ArrayList<GraphAdjacencyMap> preProcessData, String preProcessResultPath){
         for(int i = 0; i < preProcessData.size(); i++){
             System.out.println("Processing length " + i);
             if(i > 5) break; // remove this later
@@ -43,11 +44,11 @@ public class PreProcess {
                 File file = new File(preProcessResultPath + "/" + i + ".txt");
                 file.createNewFile();
                 BufferedWriter scanner = new BufferedWriter(new FileWriter(file));
-                for(Map.Entry<String, ArrayList<String>> entry : preProcessData.get(i).entrySet()){
+                for(Map.Entry<String, ArrayList<GraphNode>> entry : preProcessData.get(i).entrySet()){
                     String word = entry.getKey();
-                    ArrayList<String> connectedWords = entry.getValue();
+                    ArrayList<GraphNode> connectedWords = entry.getValue();
                     String connectedWordsString = "";
-                    for(String connectedWord : connectedWords){
+                    for(GraphNode connectedWord : connectedWords){
                         connectedWordsString += connectedWord + " ";
                     }
                     connectedWordsString = connectedWordsString.trim();
@@ -64,7 +65,7 @@ public class PreProcess {
 
     // Non human readable version, serialize as bytes for faster reading
     // Write preProcessData to file as bytes, each in different file. 1.bin, 2.bin, 3.bin, ...
-    public static void writeMultipleInBytes(ArrayList<GraphNode> preProcessData, String preProcessResultPath){
+    public static void writeMultipleInBytes(ArrayList<GraphAdjacencyMap> preProcessData, String preProcessResultPath){
         for(int i = 0; i < preProcessData.size(); i++){
             System.out.println("Processing length " + i);
 
@@ -72,7 +73,7 @@ public class PreProcess {
                 File file = new File(preProcessResultPath + "/" + i + ".bin");
                 file.createNewFile();
 
-                GraphNode currentMap = preProcessData.get(i);
+                GraphAdjacencyMap currentMap = preProcessData.get(i);
 
                 // Write currentMap to file as bytes with serialization
                 FileOutputStream fileOutputStream = new FileOutputStream(file, false);
@@ -89,7 +90,7 @@ public class PreProcess {
 
     // Non human readable version, serialize as bytes for faster reading
     // Write preProcessData to file as bytes, in 1 big file
-    public static void writeInBytes(ArrayList<GraphNode> preProcessData, String preProcessResultPath){
+    public static void writeInBytes(ArrayList<GraphAdjacencyMap> preProcessData, String preProcessResultPath){
         try {
             File file = new File(preProcessResultPath);
             file.createNewFile();
@@ -108,7 +109,7 @@ public class PreProcess {
 
 
     // Print content of preProcessData by length and number of words with that length
-    public static void printContent(ArrayList<GraphNode> preProcessData){
+    public static void printContent(ArrayList<GraphAdjacencyMap> preProcessData){
         System.out.println("Dictionary Content:");
         for(int i = 0; i < preProcessData.size(); i++){
             System.out.println("Length " + i + " :" + preProcessData.get(i).size());
@@ -118,7 +119,7 @@ public class PreProcess {
 
     // Read dictionary file
     // It populates the keys of preProcessData
-    public static void populateKeysFromFile(ArrayList<GraphNode> preProcessData, String dictionaryPath){
+    public static void populateKeysFromFile(ArrayList<GraphAdjacencyMap> preProcessData, String dictionaryPath){
         try {
             File file = new File(dictionaryPath);
             Scanner scanner = new Scanner(file);
@@ -129,7 +130,7 @@ public class PreProcess {
                 // Resize the arraylist when found bigger word
                 if (length >= preProcessData.size()) {
                     for (int i = preProcessData.size(); i <= length; i++) {
-                        preProcessData.add(new GraphNode());
+                        preProcessData.add(new GraphAdjacencyMap());
                     }
                 }
 
@@ -145,7 +146,7 @@ public class PreProcess {
     
     // For each word, connect to all words with length difference 1
     // It populates the values of preProcessData
-    public static void populateGraph(ArrayList<GraphNode> preProcessData){
+    public static void populateGraph(ArrayList<GraphAdjacencyMap> preProcessData){
         long startTime = System.currentTimeMillis();
         // For each length
         for(int i = 0; i < preProcessData.size(); i++){
@@ -153,15 +154,15 @@ public class PreProcess {
 
             // For each key in certain length
             var entrySet = preProcessData.get(i).entrySet();
-            for(Map.Entry<String, ArrayList<String>> entry : entrySet){
-                String word = entry.getKey();
-                ArrayList<String> connectedWords = new ArrayList<String>();
+            for(Map.Entry<String, ArrayList<GraphNode>> entry : entrySet){
+                String node = entry.getKey();
+                ArrayList<GraphNode> connectedWords = new ArrayList<GraphNode>();
 
                 // Loop through current map's keys
-                for(Map.Entry<String, ArrayList<String>> currentEntry : entrySet){
-                    String currentWord = currentEntry.getKey();
-                    if(isDifferenceOne(word, currentWord)){
-                        connectedWords.add(currentWord);
+                for(Map.Entry<String, ArrayList<GraphNode>> currentEntry : entrySet){
+                    String currentNode = currentEntry.getKey();
+                    if(isDifferenceOne(node, currentNode)){
+                        connectedWords.add(new GraphNode(currentNode, null));
                     }
                 }
 
@@ -174,7 +175,7 @@ public class PreProcess {
 
     // For each word, connect to all words with length difference 1
     // It populates the values of preProcessData with multithreading
-    public static void populateGraphMultithreded(ArrayList<GraphNode> preProcessData){
+    public static void populateGraphMultithreded(ArrayList<GraphAdjacencyMap> preProcessData){
         long startTime = System.currentTimeMillis();
         System.out.println("Please wait, this is a multithreaded process...");
         IntStream.range(0, preProcessData.size()).parallel().forEach(i -> {
@@ -182,15 +183,15 @@ public class PreProcess {
 
             // For each key in certain length
             var entrySet = preProcessData.get(i).entrySet();
-            for(Map.Entry<String, ArrayList<String>> entry : entrySet){
-                String word = entry.getKey();
-                ArrayList<String> connectedWords = new ArrayList<String>();
+            for(Map.Entry<String, ArrayList<GraphNode>> entry : entrySet){
+                String node = entry.getKey();
+                ArrayList<GraphNode> connectedWords = new ArrayList<GraphNode>();
 
                 // Loop through current map's keys
-                for(Map.Entry<String, ArrayList<String>> currentEntry : entrySet){
-                    String currentWord = currentEntry.getKey();
-                    if(isDifferenceOne(word, currentWord)){
-                        connectedWords.add(currentWord);
+                for(Map.Entry<String, ArrayList<GraphNode>> currentEntry : entrySet){
+                    String currentNode = currentEntry.getKey();
+                    if(isDifferenceOne(node, currentNode)){
+                        connectedWords.add(new GraphNode(currentNode, null));
                     }
                 }
 
@@ -203,7 +204,7 @@ public class PreProcess {
     
     public static void PreprocessDictionary(String dictionaryPath, String preProcessResultPath){
         // index represents length of word
-        ArrayList<GraphNode> preProcessData = new ArrayList<GraphNode>();
+        ArrayList<GraphAdjacencyMap> preProcessData = new ArrayList<GraphAdjacencyMap>();
         populateKeysFromFile(preProcessData, dictionaryPath);
         printContent(preProcessData);
         System.out.println("Done reading dictionary. Creating graph...");
@@ -226,7 +227,7 @@ public class PreProcess {
             try {
                 FileInputStream fileInputStream = new FileInputStream(preProcessResultPath + "/" + i + ".bin");
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                GraphNode currentMap = (GraphNode) objectInputStream.readObject();
+                GraphAdjacencyMap currentMap = (GraphAdjacencyMap) objectInputStream.readObject();
                 
                 System.out.println("Length " + i + " :" + currentMap.size());
                 fileInputStream.close();
@@ -250,7 +251,7 @@ public class PreProcess {
     public static void CheckPreprocess(String preProcessResultPath){
         System.out.println("Checking preprocess result...");
         long startTime = System.currentTimeMillis();
-        ArrayList<GraphNode> currentMap = GraphNode.createListFromBinaryFile(preProcessResultPath);
+        ArrayList<GraphAdjacencyMap> currentMap = GraphAdjacencyMap.createListFromBinaryFile(preProcessResultPath);
         printContent(currentMap);
         long endTime = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (endTime - startTime) + " ms");

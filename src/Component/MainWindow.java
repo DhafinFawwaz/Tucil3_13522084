@@ -8,9 +8,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.*;
 
+import Solver.GraphAdjacencyMap;
 import Solver.GraphNode;
 import Solver.SolutionData;
 import Solver.UCSSolver;
@@ -42,9 +44,9 @@ public class MainWindow extends JFrame {
     ArrayList<SquaredLabel> resultList = new ArrayList<SquaredLabel>();
     Component spacingBox = Box.createRigidArea(new Dimension(0, 100));
     GridBagConstraints gbc = new GridBagConstraints();
-    ArrayList<GraphNode> graphList;
+    ArrayList<GraphAdjacencyMap> graphList;
 
-    public MainWindow(ArrayList<GraphNode> graphList) {
+    public MainWindow(ArrayList<GraphAdjacencyMap> graphList) {
         this.graphList = graphList;
 
         setTitle("Word Ladder Solver");
@@ -226,12 +228,12 @@ public class MainWindow extends JFrame {
 
         
 
-        ArrayList<String> result = solution.getSolution();
+        LinkedList<String> result = solution.getSolution();
         double duration = solution.getDuration();
         executionTimeLabel.setText("Execution Time: " + duration + " ms");
         
-        for (String word : result) {
-            SquaredLabel newResult = new SquaredLabel(word);
+        for (String node : result) {
+            SquaredLabel newResult = new SquaredLabel(node);
             resultPanelSolution.add(newResult);
             resultList.add(newResult);
         }

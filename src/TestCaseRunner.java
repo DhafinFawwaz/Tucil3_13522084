@@ -2,10 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import Solver.AStarSolver;
 import Solver.GBFSSolver;
-import Solver.GraphNode;
+import Solver.GraphAdjacencyMap;
 import Solver.SolutionData;
 import Solver.UCSSolver;
 import Solver.WordLadderSolver;
@@ -19,7 +20,7 @@ public class TestCaseRunner {
         System.out.println("Time taken: " + data.getDuration() + " ms");
     }
 
-    public static void solve(int currentTestCase, String source, String destination, ArrayList<GraphNode> graphList){
+    public static void solve(int currentTestCase, String source, String destination, ArrayList<GraphAdjacencyMap> graphList){
         System.out.println("\n\n============== [ Test case " + currentTestCase + " | " + source + " -> " + destination + " ] ==============");
         try {
             System.out.println("\nAlgorithm: Uniform Cost Search");
@@ -41,16 +42,26 @@ public class TestCaseRunner {
         }
     }
     public static void main(String[] args) {
-        if(args.length < 1){
-            System.out.println("Please provide the path to the test case file");
-            System.out.println("Usage: java ./bin/TestCaseRunner <test_case_path>");
-            System.exit(0);
-        }
+        // test
+        // TreeMap<String, Integer> map = new TreeMap<String, Integer>();
+        // String ayam = "ayam";
+        // String ayam2 = "ayam";
+        // String bebek = "bebek";
+        // map.put(ayam, 1);
+        // map.put(bebek, 2);
+        // map.put("ayam", 3);
+
+        // System.out.println(map.get(ayam) + " " + map.get(bebek));
+        
+        // if (ayam.equals(ayam2)) return;
+        String testCasePath;
+        if(args.length < 1){ // default test case because the debugger is bugged when passing arguments
+            testCasePath = "test/input.txt";
+        } else testCasePath = args[0];
 
         System.out.println("Starting test case...");
-        ArrayList<GraphNode> graphList = GraphNode.createListFromBinaryFile("src/Asset/dictionary.bin");
-        String testCasePath = args[0];
-
+        ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile("src/Asset/dictionary.bin");
+        
         try {
             File file = new File(testCasePath);
             Scanner scanner = new Scanner(file);

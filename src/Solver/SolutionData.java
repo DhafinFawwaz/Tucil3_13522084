@@ -1,11 +1,12 @@
 package Solver;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SolutionData {
     long startTime = 0;
     long duration = 0;
-    ArrayList<String> solution;
+    LinkedList<String> solution;
 
     public SolutionData startTimer(){
         startTime = System.nanoTime();
@@ -18,12 +19,12 @@ public class SolutionData {
         return this;
     }
 
-    public SolutionData setSolution(ArrayList<String> solution){
+    public SolutionData setSolution(LinkedList<String> solution){
         this.solution = solution;
         return this;
     }
 
-    public ArrayList<String> getSolution(){
+    public LinkedList<String> getSolution(){
         return solution;
     }
     public double getDuration(){

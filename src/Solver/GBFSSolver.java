@@ -1,23 +1,23 @@
 package Solver;
 
 import java.util.ArrayList;
-// import java.util.PriorityQueue;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.Comparator;
+
 
 public class GBFSSolver extends WordLadderSolver {
-    public GBFSSolver(String source, String destination, ArrayList<GraphNode> graphList) {
+    Comparator<GraphNode> comparator = new GBFSComparator(source, destination);
+
+    public GBFSSolver(String source, String destination, ArrayList<GraphAdjacencyMap> graphList) {
         super(source, destination, graphList);
     }
-
+    
     @Override
-    public SolutionData Solve() throws Exception {
-        SolutionData solution = super.Solve();
-        ArrayList<String> resultPath = new ArrayList<String>();
-
-        // Algorithm starts here
-        resultPath.add(source);
-        resultPath.add(destination);
-
-
-        return solution.setSolution(resultPath).endTimer();
+    void populateSolutionResultPath(GraphAdjacencyMap graph, LinkedList<String> resultPath){
+        PriorityQueue<GraphNode> queue = new PriorityQueue<GraphNode>(comparator);
+        startSearch(graph, resultPath, queue);
     }
 }

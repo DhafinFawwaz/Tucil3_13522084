@@ -1,6 +1,6 @@
-# Tubes
+# Tucil 3
 
-# Author
+## Author
 - 13522084 Dhafin Fawwaz Ikramullah
 
 ### Small Tips

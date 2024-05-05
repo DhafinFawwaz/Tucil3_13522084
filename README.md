@@ -11,12 +11,37 @@ https://wordwormdormdork.com/
 * Java: make sure java is installed in your device to run the project.
 
 ## 🖼️ Screenshots
-![1](./doc/1.png)
-![2](./doc/2.png)
+
 | Class                      | Screenshot            |
 | -------------------------  | --------------------- |
 | Main Menu.                 | ![1](doc/1.png)       |
 | Example Result.            | ![2](doc/2.png)       |
+
+## Preprocess
+Before running the project, the dictionary must be preprocessed first into binary format. You can skip this step if you want to use the prebuilt one
+### Compile Preprocess
+Run the following command to compile the preprocess
+```
+./compilepreprocess.bat
+```
+or
+```
+javac -d bin ./src/PreProcess.java -cp ./src
+```
+
+### Run Preprocess
+Run the following command to preprocess the choosen dictionary
+```
+./runpreprocess.bat
+```
+or
+```
+java -cp bin PreProcess -p <path to dictionary.txt> <path to binary result>
+```
+for example
+```
+java -cp bin PreProcess -p ./src/Asset/dictionary.txt ./src/Asset/dictionary.bin
+```
 
 ## GUI
 ### Compile & Run GUI
@@ -55,6 +80,7 @@ For example
 ```
 java -XX:CompileThreshold=1 -cp bin TestCaseRunner ./test/input.txt ./src/Asset/dictionary.bin
 ```
+You can see example of the input format in `./test/input.txt` and the output in `./test/output.txt`
 
 ### Writing Test Case to File
 To write test case result in file, use pipe like the following
@@ -66,6 +92,7 @@ or
 java -XX:CompileThreshold=1 -cp bin TestCaseRunner ./test/input.txt ./src/Asset/dictionary.bin > ./test/output.txt
 ```
 
-### Tips
+
+## Tips
 you can also replace the dictionary by replacing the file in `Asset/dictionary.txt`
 

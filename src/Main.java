@@ -40,6 +40,10 @@ class Main{
         }
         
         ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile(dictionaryPath);
+        if(graphList == null){
+            System.out.println("The file format is not correct. Please run PreProcess first to generate dictionary.bin file.");
+            System.exit(0);
+        }
         window.setGraphList(graphList);
     }
 }

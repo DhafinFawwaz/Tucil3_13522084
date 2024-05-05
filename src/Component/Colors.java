@@ -27,6 +27,8 @@ public class Colors {
     public static final Color indigo100 = Color.decode("#312e81");
     public static final Color indigo50  = Color.decode("#1e1b4b");
 
+    public static final Color green500 = Color.decode("#22c55e");
+
     public static final Color transparent = new Color(0, 0, 0, 0);
 
 }

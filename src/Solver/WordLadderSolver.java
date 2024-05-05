@@ -52,7 +52,7 @@ public abstract class WordLadderSolver {
 
         // make sure all prev nodes are null and cost is reset
         var values = graph.values();
-        values.parallelStream().forEach(list -> {
+        values.forEach(list -> {
             list.forEach(node -> {
                 node.reset();
             });

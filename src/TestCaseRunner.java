@@ -84,7 +84,7 @@ public class TestCaseRunner {
                     System.out.println("\u001B[31m\nInvalid test case format in\nline: " + currentLine + "\ntext: " + data);
                     System.out.println("Test case format should be:\n<source_word> <destination_word>\n<source_word> <destination_word>\n<source_word> <destination_word>\n...\nWith a space between the two words and same length\u001B[0m");
                 }
-                else solve(currentLine, splitted[0], splitted[1], graphList);
+                else solve(currentLine, splitted[0].toLowerCase(), splitted[1].toLowerCase(), graphList);
                 currentLine++;
             }
             scanner.close();

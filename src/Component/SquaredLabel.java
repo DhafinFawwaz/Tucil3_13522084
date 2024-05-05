@@ -41,6 +41,13 @@ public class SquaredLabel extends JPanel {
         add(newLabel, 0);
     }
 
+    public void setGreenMask(String destination) {
+        for(int i = 0; i < destination.length(); i++){
+            if(destination.charAt(i) == labelList.get(i).getText().charAt(0))
+                labelList.get(i).setBackground(Colors.green500);
+        }
+    }
+
     Label createLabel(String s){
         Label label = new Label(s){
             // round corner

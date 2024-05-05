@@ -274,6 +274,7 @@ public class MainWindow extends JFrame {
             resultPanelSolution.add(newResult);
             resultList.add(newResult);
             newResult.setNumberLabel(stepNumber);
+            newResult.setGreenMask(destinationInput.getText());
             stepNumber++;
         }
 

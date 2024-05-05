@@ -1,14 +1,14 @@
 package Solver;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class AStarSolver extends WordLadderSolver {
-    Comparator<GraphNode> comparator = new AStarComparator(source, destination);
+    AStarComparator comparator;
 
     public AStarSolver(String source, String destination, ArrayList<GraphAdjacencyMap> graphList) {
         super(source, destination, graphList);
+        comparator = new AStarComparator(source, destination);
     }
 
     @Override

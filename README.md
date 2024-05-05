@@ -94,5 +94,5 @@ java -XX:CompileThreshold=1 -cp bin TestCaseRunner ./test/input.txt ./src/Asset/
 
 
 ## Tips
-you can also replace the dictionary by replacing the file in `Asset/dictionary.txt`
+you can also replace the dictionary by replacing the file in `./src/Asset/dictionary.txt`
 

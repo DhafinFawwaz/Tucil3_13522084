@@ -5,18 +5,19 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.*;
 
+import Solver.AStarSolver;
+import Solver.GBFSSolver;
 import Solver.GraphAdjacencyMap;
-import Solver.GraphNode;
 import Solver.SolutionData;
 import Solver.UCSSolver;
-import Solver.WordLadderSolver;;
+import Solver.WordLadderSolver;
+import Solver.WorldLadderAlgorithm;
 
 public class MainWindow extends JFrame {
     Label titleLabel = new Label("Word Ladder Solver");
@@ -46,9 +47,17 @@ public class MainWindow extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     ArrayList<GraphAdjacencyMap> graphList;
 
-    public MainWindow(ArrayList<GraphAdjacencyMap> graphList) {
-        this.graphList = graphList;
+    WorldLadderAlgorithm algorithmType = WorldLadderAlgorithm.UCS;
+    JPanel radioButtonPanel = new JPanel(new GridBagLayout());
+    RadioButton jRadioButton1 = new RadioButton("Uniform Cost Search"); RadioButton jRadioButton2 = new RadioButton("Greedy Best First Search"); RadioButton jRadioButton3 = new RadioButton("A Star Search");
+    Label algorithmLabel = new Label("Algorithm: "); 
+    ButtonGroup algorithmButtonGroup = new ButtonGroup();
 
+    public void setGraphList(ArrayList<GraphAdjacencyMap> graphList) {
+        this.graphList = graphList;
+    }
+
+    public MainWindow() {
         setTitle("Word Ladder Solver");
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,6 +80,33 @@ public class MainWindow extends JFrame {
         
         gbc.gridy++;
         panel.add(titlePanel, gbc);
+
+        // Radio Label
+        gbc.gridy++;
+        panel.add(algorithmLabel, gbc);
+
+        // RadioButton
+        jRadioButton1.setSelected(true);
+        algorithmLabel.setForeground(Colors.slate100); algorithmLabel.setFont(Fonts.OutfitBold.deriveFont(18f));
+        algorithmButtonGroup.add(jRadioButton1); algorithmButtonGroup.add(jRadioButton2); algorithmButtonGroup.add(jRadioButton3);
+        GridBagConstraints gbc2 = new GridBagConstraints(); gbc2.weightx = 1; gbc2.weighty = 0;
+        gbc2.gridwidth = GridBagConstraints.REMAINDER;
+        radioButtonPanel.add(jRadioButton1); gbc2.gridy++;
+        radioButtonPanel.add(jRadioButton2); gbc2.gridy++;
+        radioButtonPanel.add(jRadioButton3);
+        radioButtonPanel.setBackground(Colors.slate950);
+        gbc.gridy++;
+        panel.add(radioButtonPanel, gbc);
+        jRadioButton1.addActionListener(e -> {
+            algorithmType = WorldLadderAlgorithm.UCS;
+        });
+        jRadioButton2.addActionListener(e -> {
+            algorithmType = WorldLadderAlgorithm.GBFS;
+        });
+        jRadioButton3.addActionListener(e -> {
+            algorithmType = WorldLadderAlgorithm.AStar;
+        });
+        // RadioButton end
         
         // Source Panel
         sourceLabelPanel.setBackground(Colors.slate950);
@@ -128,7 +164,7 @@ public class MainWindow extends JFrame {
             try {
                 populateSolution();
             } catch (Exception ex) {
-                popUpError("Error", ex.getMessage());
+                popUp("Error", ex.getMessage());
             }
         });
 
@@ -151,23 +187,18 @@ public class MainWindow extends JFrame {
         destinationInput.onUp = () -> {
             sourceInput.setFocusToLeftestField();
         };
-        destinationInput.onDown = () -> {
-            submitButton.requestFocus();
-        };
     }
 
     // Return the choosen algorithm populated with the source, destination and graph
     WordLadderSolver getSolver() {
-        int algorithmType = 0;
+        String source = sourceInput.getText();
+        String destination = destinationInput.getText();
         switch(algorithmType){
-            case 0:
-                return new UCSSolver(sourceInput.getText(), destinationInput.getText(), graphList);
-            case 1:
-                // return new GBFSSolver(sourceInput.getText(), destinationInput.getText(), graphList);
-            case 2:
-                // return new AStarSolver(sourceInput.getText(), destinationInput.getText(), graphList);
+            case UCS:   return new UCSSolver  (source, destination, graphList);
+            case GBFS:  return new GBFSSolver (source, destination, graphList);
+            case AStar: return new AStarSolver(source, destination, graphList);
         }
-        return new UCSSolver(sourceInput.getText(), destinationInput.getText(), graphList);
+        return new UCSSolver(source, destination, graphList);
     }
 
     void populateSolution() throws Exception {
@@ -232,10 +263,13 @@ public class MainWindow extends JFrame {
         double duration = solution.getDuration();
         executionTimeLabel.setText("Execution Time: " + duration + " ms");
         
+        int stepNumber = 1;
         for (String node : result) {
             SquaredLabel newResult = new SquaredLabel(node);
             resultPanelSolution.add(newResult);
             resultList.add(newResult);
+            newResult.setNumberLabel(stepNumber);
+            stepNumber++;
         }
 
         // move to the center
@@ -244,7 +278,7 @@ public class MainWindow extends JFrame {
 
     }
 
-    void popUpError(String title, String message) {
+    public void popUp(String title, String message) {
         JDialog dialog = new JDialog(this);
         dialog.setTitle(title);
         dialog.setSize(480, 170);
@@ -282,7 +316,7 @@ public class MainWindow extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         Label messageLabel = new Label(message);
-        messageLabel.setFont(Fonts.OutfitBold.deriveFont(18f));
+        messageLabel.setFont(Fonts.OutfitBold.deriveFont(15f));
         panel.add(messageLabel, gbc);
         gbc.gridy++;
         panel.add(Box.createRigidArea(new Dimension(0, 20)), gbc);

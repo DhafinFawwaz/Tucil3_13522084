@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class SquaredLabel extends JPanel {
@@ -31,6 +33,12 @@ public class SquaredLabel extends JPanel {
             add(newLabel);
             labelList.add(newLabel);
         }
+    }
+
+    public void setNumberLabel(int number){
+        Label newLabel = new Label(String.valueOf(number));
+        newLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        add(newLabel, 0);
     }
 
     Label createLabel(String s){

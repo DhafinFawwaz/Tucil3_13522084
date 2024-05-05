@@ -29,8 +29,16 @@ public abstract class WordLadderSolver {
         if(source.length() != destination.length()) {
             throw new IllegalArgumentException("Source and destination must have the same length");
         }
+        
+        source = source.toLowerCase();
+        destination = destination.toLowerCase();
 
-        GraphAdjacencyMap graph = graphList.get(source.length());
+        int wordLength = source.length();
+        if(graphList.size() <= wordLength) {
+            throw new IllegalArgumentException("Word with length "+wordLength+" not found in dictionary");
+        }
+        GraphAdjacencyMap graph = graphList.get(wordLength);
+
         if(!graph.containsKey(source)) {
             throw new IllegalArgumentException("Source word not found in dictionary");
         }
@@ -38,10 +46,24 @@ public abstract class WordLadderSolver {
             throw new IllegalArgumentException("Destination word not found in dictionary");
         }
 
+
         SolutionData solution = new SolutionData().startTimer();
         LinkedList<String> resultPath = new LinkedList<String>();
 
+        // make sure all prev nodes are null and cost is reset
+        var values = graph.values();
+        values.parallelStream().forEach(list -> {
+            list.forEach(node -> {
+                node.reset();
+            });
+        });
+
         populateSolutionResultPath(graph, resultPath);
+
+        if(resultPath.size() == 0){
+            solution.setSolution(resultPath).endTimer();
+            throw new SolutionException(solution.getDuration());
+        }
 
         return solution.setSolution(resultPath).endTimer();
     }

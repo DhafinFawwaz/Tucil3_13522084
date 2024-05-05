@@ -8,12 +8,21 @@ import Solver.AStarSolver;
 import Solver.GBFSSolver;
 import Solver.GraphAdjacencyMap;
 import Solver.SolutionData;
+import Solver.SolutionException;
 import Solver.UCSSolver;
 import Solver.WordLadderSolver;
 
 public class TestCaseRunner {
     public static void solveAndPrint(WordLadderSolver solver) throws Exception {
-        SolutionData data = solver.Solve();
+        SolutionData data;
+        try{
+            data = solver.Solve();
+        } catch (SolutionException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Time taken: " + e.getDuration() + " ms");
+            return;
+        }
+
         int i = 1;
         for (String word : data.getSolution()) {
             System.out.print(i);
@@ -43,30 +52,26 @@ public class TestCaseRunner {
  
         } catch (Exception e) {
             System.out.println("\u001B[31mError in test case " + currentTestCase);
-            System.out.println(e.getMessage());
-            System.out.print("\u001B[0m");
+            System.out.print(e.getMessage());
+            System.out.print("\u001B[0m\n");
         }
     }
     public static void main(String[] args) {
-        // test
-        // TreeMap<String, Integer> map = new TreeMap<String, Integer>();
-        // String ayam = "ayam";
-        // String ayam2 = "ayam";
-        // String bebek = "bebek";
-        // map.put(ayam, 1);
-        // map.put(bebek, 2);
-        // map.put("ayam", 3);
-
-        // System.out.println(map.get(ayam) + " " + map.get(bebek));
-        
-        // if (ayam.equals(ayam2)) return;
         String testCasePath;
+        String dictionaryPath;
         if(args.length < 1){ // default test case because the debugger is bugged when passing arguments
             testCasePath = "test/input.txt";
-        } else testCasePath = args[0];
+            dictionaryPath = "src/Asset/dictionary.bin";
+        } else if(args.length < 2) {
+            testCasePath = args[0];
+            dictionaryPath = "src/Asset/dictionary.bin";
+        } else {
+            testCasePath = args[0];
+            dictionaryPath = args[1];
+        }
 
         System.out.println("Starting test case...");
-        ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile("src/Asset/dictionary.bin");
+        ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile(dictionaryPath);
         
         try {
             File file = new File(testCasePath);

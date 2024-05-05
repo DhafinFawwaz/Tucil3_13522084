@@ -24,7 +24,7 @@ public class GraphAdjacencyMap extends TreeMap<String, ArrayList<GraphNode>> {
             fileInputStream.close();
             return currentMap;
         } catch (FileNotFoundException e) {
-            System.out.println("./src/Asset/dictionary.bin not found");
+            System.out.println(preProcessResultPath+" not found");
             System.out.println("Please run PreProcess first to generate dictionary.bin file.");
             System.out.println("You can copy the following commands to the terminal to run PreProcess:");
             System.out.println(">> ./compilepreprocess.bat");

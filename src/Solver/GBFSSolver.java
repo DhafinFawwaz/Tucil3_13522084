@@ -6,10 +6,11 @@ import java.util.Comparator;
 
 
 public class GBFSSolver extends WordLadderSolver {
-    Comparator<GraphNode> comparator = new GBFSComparator(source, destination);
+    Comparator<GraphNode> comparator;
 
     public GBFSSolver(String source, String destination, ArrayList<GraphAdjacencyMap> graphList) {
         super(source, destination, graphList);
+        comparator = new GBFSComparator(destination);
     }
     
     @Override

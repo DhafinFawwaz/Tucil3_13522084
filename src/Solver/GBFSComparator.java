@@ -3,10 +3,8 @@ package Solver;
 import java.util.Comparator;
 
 public class GBFSComparator implements Comparator<GraphNode> {
-    String source;
     String destination;
-    public GBFSComparator(String source, String destination){
-        this.source = source;
+    public GBFSComparator(String destination){
         this.destination = destination;
     }
 
@@ -20,10 +18,11 @@ public class GBFSComparator implements Comparator<GraphNode> {
         return diff;
     }
 
+    // Basically the f(n), the heuristic function that calculated according to current to destination
     @Override
     public int compare(GraphNode a, GraphNode b){
-        int diffA = wordDifference(a.word, destination);
-        int diffB = wordDifference(b.word, destination);
-        return diffA - diffB; // smaller difference is better
+        int fA = wordDifference(a.word, destination);
+        int fB = wordDifference(b.word, destination);
+        return fA - fB; // smaller difference is better
     }
 }

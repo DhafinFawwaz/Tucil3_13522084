@@ -73,8 +73,13 @@ public abstract class WordLadderSolver {
         Set<String> visited = new HashSet<String>();
 
         queue.add(new GraphNode(source, null));
-        while(queue.size() > 0){
+
+        while(!queue.isEmpty()){
             GraphNode currentNode = queue.poll();
+
+            if (visited.contains(currentNode.word)) continue;
+			visited.add(currentNode.word);
+
             if(currentNode.word.equals(destination)){
                 // Trace back to the source
                 GraphNode currentTracedNode = currentNode;
@@ -89,13 +94,9 @@ public abstract class WordLadderSolver {
             ArrayList<GraphNode> neighborList = graph.get(currentNode.word);
 
             for(GraphNode neighbor : neighborList){
-                if(!visited.contains(neighbor.word)){
-                    visited.add(neighbor.word);
-                    neighbor.prevNode = currentNode;
-                    queue.add(neighbor);
-                }
+                neighbor.prevNode = currentNode;
+                queue.add(neighbor);
             }
-            visited.add(currentNode.word);
         }
 
         solutionData.setNodeVisited(visited.size());

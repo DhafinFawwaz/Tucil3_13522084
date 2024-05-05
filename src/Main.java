@@ -2,9 +2,6 @@
 
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.Dialog;
 import java.awt.FileDialog;
 import java.io.File;
@@ -12,7 +9,6 @@ import java.io.File;
 import Component.Fonts;
 import Component.MainWindow;
 import Solver.GraphAdjacencyMap;
-import Component.MainWindow;
 
 class Main{
     public static void main(String[] args){

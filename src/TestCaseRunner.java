@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 import Solver.AStarSolver;
 import Solver.GBFSSolver;

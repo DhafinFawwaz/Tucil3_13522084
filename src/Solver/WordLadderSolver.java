@@ -20,7 +20,7 @@ public abstract class WordLadderSolver {
         this.graphList = graphList;
     }
 
-    abstract void populateSolutionResultPath(GraphAdjacencyMap graph, LinkedList<String> resultPath);
+    abstract void populateSolutionData(GraphAdjacencyMap graph, SolutionData solutionData);
 
     public SolutionData Solve() throws Exception {
         if (source.isEmpty() || destination.isEmpty()) {
@@ -48,7 +48,7 @@ public abstract class WordLadderSolver {
 
 
         SolutionData solution = new SolutionData().startTimer();
-        LinkedList<String> resultPath = new LinkedList<String>();
+        solution.setSolution(new LinkedList<String>());
 
         // make sure all prev nodes are null and cost is reset
         var values = graph.values();
@@ -58,17 +58,18 @@ public abstract class WordLadderSolver {
             });
         });
 
-        populateSolutionResultPath(graph, resultPath);
+        populateSolutionData(graph, solution);
 
-        if(resultPath.size() == 0){
-            solution.setSolution(resultPath).endTimer();
+        if(solution.getSolutionSize() == 0){
+            solution.endTimer();
             throw new SolutionException(solution.getDuration());
         }
 
-        return solution.setSolution(resultPath).endTimer();
+        return solution.endTimer();
     }
 
-    void startSearch(GraphAdjacencyMap graph, LinkedList<String> resultPath, PriorityQueue<GraphNode> queue){
+    void startSearch(GraphAdjacencyMap graph, SolutionData solutionData, PriorityQueue<GraphNode> queue){
+        LinkedList<String> resultPath = solutionData.getSolutionPath();
         Set<String> visited = new HashSet<String>();
 
         queue.add(new GraphNode(source, null));
@@ -96,5 +97,7 @@ public abstract class WordLadderSolver {
             }
             visited.add(currentNode.word);
         }
+
+        solutionData.setNodeVisited(visited.size());
     }
 }

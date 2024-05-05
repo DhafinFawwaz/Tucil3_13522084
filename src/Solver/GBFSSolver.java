@@ -1,10 +1,7 @@
 package Solver;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.Comparator;
 
 
@@ -16,8 +13,8 @@ public class GBFSSolver extends WordLadderSolver {
     }
     
     @Override
-    void populateSolutionResultPath(GraphAdjacencyMap graph, LinkedList<String> resultPath){
+    void populateSolutionData(GraphAdjacencyMap graph, SolutionData solutionData){
         PriorityQueue<GraphNode> queue = new PriorityQueue<GraphNode>(comparator);
-        startSearch(graph, resultPath, queue);
+        startSearch(graph, solutionData, queue);
     }
 }

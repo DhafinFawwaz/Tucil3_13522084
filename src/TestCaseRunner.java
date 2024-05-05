@@ -32,6 +32,7 @@ public class TestCaseRunner {
             System.out.println(word);
             i++;
         }
+        System.out.println("Nodes visited: " + data.getNodesVisited());
         System.out.println("Time taken: " + data.getDuration() + " ms");
     }
 
@@ -70,7 +71,6 @@ public class TestCaseRunner {
             dictionaryPath = args[1];
         }
 
-        System.out.println("Starting test case...");
         ArrayList<GraphAdjacencyMap> graphList = GraphAdjacencyMap.createListFromBinaryFile(dictionaryPath);
         
         try {

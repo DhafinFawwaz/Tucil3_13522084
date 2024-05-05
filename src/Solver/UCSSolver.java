@@ -1,7 +1,6 @@
 package Solver;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class UCSSolver extends WordLadderSolver {
@@ -10,8 +9,8 @@ public class UCSSolver extends WordLadderSolver {
     }
 
     @Override
-    void populateSolutionResultPath(GraphAdjacencyMap graph, LinkedList<String> resultPath){
+    void populateSolutionData(GraphAdjacencyMap graph, SolutionData solutionData){
         PriorityQueue<GraphNode> queue = new PriorityQueue<GraphNode>();
-        startSearch(graph, resultPath, queue);
+        startSearch(graph, solutionData, queue);
     }
 }

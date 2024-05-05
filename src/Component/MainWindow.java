@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
     Label sourceLabel = new Label("Source:");
     Label destinationLabel = new Label("Destination:");
     Label resultLabel = new Label("Result:");
+    Label nodeVisitedLabel = new Label("Nodes Visited: ");
     Label executionTimeLabel = new Label("Time taken: ");
 
     // Layout
@@ -147,6 +148,8 @@ public class MainWindow extends JFrame {
         // Execution Time Label
         executionTimeLabel.setFont(Fonts.OutfitBold.deriveFont(14f));
         executionTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 20));
+        nodeVisitedLabel.setFont(Fonts.OutfitBold.deriveFont(14f));
+        nodeVisitedLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 20));
 
         // Components
         titlePanel.add(titleLabel);
@@ -215,7 +218,7 @@ public class MainWindow extends JFrame {
         dialog.setTitle("Solution");
         dialog.setBackground(Colors.slate950);
 
-        dialog.setSize(400, 400);
+        dialog.setSize(900, 700);
         dialog.setVisible(true);
         resultPanel.setVisible(true);
         JScrollPane resultScrollPane = new JScrollPane(resultPanel);
@@ -242,11 +245,12 @@ public class MainWindow extends JFrame {
 
         // row 2. col 1(take as small space), col 2(take as much space)
         gbc.weightx = 0;
-        gbc.gridwidth = GridBagConstraints.RELATIVE;
-        resultPanel.add(executionTimeLabel, gbc);
         gbc.weightx = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        resultPanel.add(Box.createRigidArea(new Dimension(5, 5)), gbc);
+        resultPanel.add(executionTimeLabel, gbc);
+        
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        resultPanel.add(nodeVisitedLabel, gbc);
 
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         resultPanel.add(resultPanelSolution, gbc);
@@ -262,6 +266,7 @@ public class MainWindow extends JFrame {
         LinkedList<String> result = solution.getSolution();
         double duration = solution.getDuration();
         executionTimeLabel.setText("Time taken: " + duration + " ms");
+        nodeVisitedLabel.setText("Nodes Visited: " + solution.getNodesVisited());
         
         int stepNumber = 1;
         for (String node : result) {
@@ -281,7 +286,7 @@ public class MainWindow extends JFrame {
     public void popUp(String title, String message) {
         JDialog dialog = new JDialog(this);
         dialog.setTitle(title);
-        dialog.setSize(480, 170);
+        dialog.setSize(680, 170);
         dialog.setBackground(Colors.slate950);
         dialog.setVisible(true);
 

@@ -1,1 +1,1 @@
-java -cp bin Main
+java -XX:CompileThreshold=1 -cp bin Main

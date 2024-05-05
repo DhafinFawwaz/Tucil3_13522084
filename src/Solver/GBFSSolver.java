@@ -42,7 +42,8 @@ public class GBFSSolver extends WordLadderSolver {
     
     @Override
     void populateSolutionData(GraphAdjacencyMap graph, SolutionData solutionData){
-        // there are 2 variant. but the specification is not clear which to use. Either with queue or not. Without queue, no solution is possible
+        // there are 2 variant. but the specification is not clear which to use. 
+        // Either with queue or not. Without queue, result with no solution is possible
         // simply uncomment either the 2 lines or the lines after that. choose one.
         // PriorityQueue<GraphNode> queue = new PriorityQueue<GraphNode>(comparator); 
         // startSearch(graph, solutionData, queue); 

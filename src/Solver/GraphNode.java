@@ -32,7 +32,7 @@ public class GraphNode implements Comparable<GraphNode>, Serializable {
 
     @Override
     public int compareTo(GraphNode o) {
-        return getDepth() - o.getDepth(); // smaller cost is better
+        return getDepth() - o.getDepth(); // g(n), smaller is better
     }
 
     public static void main(String[] args) {

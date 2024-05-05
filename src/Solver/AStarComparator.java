@@ -5,19 +5,19 @@ public class AStarComparator extends GBFSComparator {
         super(destination);
     }
 
-    // Basically the g(n) + f(n)
+    // Basically the g(n) + h(n)
     // g(n) is the cost from source to current
-    // f(n) is the heuristic function that calculated according to current to destination
+    // h(n) is the heuristic function that calculated according to current to destination
     @Override
     public int compare(GraphNode a, GraphNode b){
-        int fA = a.getDepth();
-        int gA = wordDifference(a.word, destination);
-        int hA = fA + gA;
+        int gA = a.getDepth();
+        int hA = wordDifference(a.word, destination);
+        int fA = gA + hA;
 
-        int fB = b.getDepth();
-        int gB = wordDifference(b.word, destination);
-        int hB = fB + gB;
+        int gB = b.getDepth();
+        int hB = wordDifference(b.word, destination);
+        int fB = gB + hB;
 
-        return hA - hB; // smaller difference is better
+        return fA - fB; // smaller difference is better
     }
 }

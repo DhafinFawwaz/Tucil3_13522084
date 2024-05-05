@@ -1,5 +1,5 @@
 package Solver;
 
 public enum WorldLadderAlgorithm {
-    UCS, GBFS, AStar
+    Uniform_Cost_Search, Greedy_Best_First_Search, A_Star_Search
 }

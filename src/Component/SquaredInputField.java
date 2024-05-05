@@ -62,6 +62,11 @@ public class SquaredInputField extends JPanel {
                 i++;
             }
         }
+        for(InputField input : inputFieldList) {
+            input.setCaretPosition(0);
+            if(input.getText().length() < 1) continue;
+            input.setText(input.getText().charAt(0)+"");
+        }
 
         repaint(); revalidate();
     }
@@ -76,30 +81,6 @@ public class SquaredInputField extends JPanel {
         
         StartBlinkingAnimation();
 
-
-        // onLeftInLeftestField
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                int keyCode = e.getExtendedKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_LEFT:
-                        
-                        return;
-                    case KeyEvent.VK_RIGHT:
-                        
-                        return;
-                    
-                
-                }
-            }
-        });
     }
 
     public InputField getInputField() {
@@ -150,12 +131,16 @@ public class SquaredInputField extends JPanel {
 
                         inputFieldList.remove(index-1);
                         remove(index-1); repaint(); revalidate();
-                        
+                        e.consume();
                         return;
                     case KeyEvent.VK_DELETE:
-                        // if(index == inputFieldList.size() - 1) return;
-                        // inputFieldList.remove(index + 1);
-                        // remove(index + 1); repaint(); revalidate(); 
+                        if(index >= inputFieldList.size() - 2){
+                            e.consume();
+                            return;
+                        }
+                        inputFieldList.remove(index + 1);
+                        remove(index + 1); repaint(); revalidate(); 
+                        e.consume();
                         return;
                     case KeyEvent.VK_LEFT:
                         if (index > 0) {
@@ -193,6 +178,7 @@ public class SquaredInputField extends JPanel {
 
                 // if the input is not a letter, ignore
                 if (!Character.isLetter(e.getKeyChar())) {
+                    removeAllEmptyFields();
                     e.consume();
                     return;
                 }
@@ -209,6 +195,8 @@ public class SquaredInputField extends JPanel {
                 } else {
                     focusMoveLeft(inputFieldList.get(index + 1));
                 }
+
+                e.consume();
             }
 
         });
@@ -264,16 +252,12 @@ public class SquaredInputField extends JPanel {
     }
 
     public void setFocusToLeftestField() {
-        focusMoveRight(inputFieldList.get(0));
+        focusMoveLeft(inputFieldList.get(0));
     }
 
-    void focusMoveRight(InputField inputField) {
-        inputField.requestFocus();
-        inputField.setCaretPosition(inputField.getText().length());
-    }
     void focusMoveLeft(InputField inputField) {
-        inputField.requestFocus();
         inputField.setCaretPosition(0);
+        inputField.requestFocus();
     }
 
     public static String getPasteFromClipboard() {

@@ -18,11 +18,11 @@ public class GBFSComparator implements Comparator<GraphNode> {
         return diff;
     }
 
-    // Basically the f(n), the heuristic function that calculated according to current to destination
+    // Basically the h(n), the heuristic function that calculated according to current to destination
     @Override
     public int compare(GraphNode a, GraphNode b){
-        int fA = wordDifference(a.word, destination);
-        int fB = wordDifference(b.word, destination);
-        return fA - fB; // smaller difference is better
+        int hA = wordDifference(a.word, destination);
+        int hB = wordDifference(b.word, destination);
+        return hA - hB; // smaller difference is better
     }
 }

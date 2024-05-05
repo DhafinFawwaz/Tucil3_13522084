@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
     Label sourceLabel = new Label("Source:");
     Label destinationLabel = new Label("Destination:");
     Label resultLabel = new Label("Result:");
+    Label algorithmUsedLabel = new Label("Algorithm: ");
     Label nodeVisitedLabel = new Label("Nodes Visited: ");
     Label executionTimeLabel = new Label("Time taken: ");
 
@@ -48,7 +49,7 @@ public class MainWindow extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     ArrayList<GraphAdjacencyMap> graphList;
 
-    WorldLadderAlgorithm algorithmType = WorldLadderAlgorithm.UCS;
+    WorldLadderAlgorithm algorithmType = WorldLadderAlgorithm.Uniform_Cost_Search;
     JPanel radioButtonPanel = new JPanel(new GridBagLayout());
     RadioButton jRadioButton1 = new RadioButton("Uniform Cost Search"); RadioButton jRadioButton2 = new RadioButton("Greedy Best First Search"); RadioButton jRadioButton3 = new RadioButton("A Star Search");
     Label algorithmLabel = new Label("Algorithm: "); 
@@ -99,13 +100,13 @@ public class MainWindow extends JFrame {
         gbc.gridy++;
         panel.add(radioButtonPanel, gbc);
         jRadioButton1.addActionListener(e -> {
-            algorithmType = WorldLadderAlgorithm.UCS;
+            algorithmType = WorldLadderAlgorithm.Uniform_Cost_Search;
         });
         jRadioButton2.addActionListener(e -> {
-            algorithmType = WorldLadderAlgorithm.GBFS;
+            algorithmType = WorldLadderAlgorithm.Greedy_Best_First_Search;
         });
         jRadioButton3.addActionListener(e -> {
-            algorithmType = WorldLadderAlgorithm.AStar;
+            algorithmType = WorldLadderAlgorithm.A_Star_Search;
         });
         // RadioButton end
         
@@ -150,6 +151,8 @@ public class MainWindow extends JFrame {
         executionTimeLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 20));
         nodeVisitedLabel.setFont(Fonts.OutfitBold.deriveFont(14f));
         nodeVisitedLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 20));
+        algorithmUsedLabel.setFont(Fonts.OutfitBold.deriveFont(14f));
+        algorithmUsedLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 20));
 
         // Components
         titlePanel.add(titleLabel);
@@ -197,9 +200,9 @@ public class MainWindow extends JFrame {
         String source = sourceInput.getText();
         String destination = destinationInput.getText();
         switch(algorithmType){
-            case UCS:   return new UCSSolver  (source, destination, graphList);
-            case GBFS:  return new GBFSSolver (source, destination, graphList);
-            case AStar: return new AStarSolver(source, destination, graphList);
+            case Uniform_Cost_Search:   return new UCSSolver  (source, destination, graphList);
+            case Greedy_Best_First_Search:  return new GBFSSolver (source, destination, graphList);
+            case A_Star_Search: return new AStarSolver(source, destination, graphList);
         }
         return new UCSSolver(source, destination, graphList);
     }
@@ -218,7 +221,7 @@ public class MainWindow extends JFrame {
         dialog.setTitle("Solution");
         dialog.setBackground(Colors.slate950);
 
-        dialog.setSize(900, 700);
+        dialog.setSize(700, 500);
         dialog.setVisible(true);
         resultPanel.setVisible(true);
         JScrollPane resultScrollPane = new JScrollPane(resultPanel);
@@ -246,6 +249,10 @@ public class MainWindow extends JFrame {
         // row 2. col 1(take as small space), col 2(take as much space)
         gbc.weightx = 0;
         gbc.weightx = 1;
+
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        resultPanel.add(algorithmUsedLabel, gbc);
+
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         resultPanel.add(executionTimeLabel, gbc);
         
@@ -265,6 +272,7 @@ public class MainWindow extends JFrame {
 
         LinkedList<String> result = solution.getSolution();
         double duration = solution.getDuration();
+        algorithmUsedLabel.setText("Algorithm: " + algorithmType.toString().replace('_', ' '));
         executionTimeLabel.setText("Time taken: " + duration + " ms");
         nodeVisitedLabel.setText("Nodes Visited: " + solution.getNodesVisited());
         

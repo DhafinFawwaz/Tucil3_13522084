@@ -29,7 +29,7 @@ public class SquaredLabel extends JPanel {
     public void setText(String text){
         String[] textArray = text.split("");
         for(String s : textArray){
-            Label newLabel = createLabel(s);
+            Label newLabel = createLabel(s.toUpperCase());
             add(newLabel);
             labelList.add(newLabel);
         }
@@ -43,7 +43,7 @@ public class SquaredLabel extends JPanel {
 
     public void setGreenMask(String destination) {
         for(int i = 0; i < destination.length(); i++){
-            if(destination.charAt(i) == labelList.get(i).getText().charAt(0))
+            if(destination.toLowerCase().charAt(i) == labelList.get(i).getText().toLowerCase().charAt(0))
                 labelList.get(i).setBackground(Colors.green500);
         }
     }

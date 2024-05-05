@@ -34,6 +34,6 @@ public class SolutionData {
     }
 
     public void Print(){
-        System.out.println("Execution time: " + duration /1000000 + " ms");
+        System.out.println("Time taken: " + duration /1000000 + " ms");
     }
 }

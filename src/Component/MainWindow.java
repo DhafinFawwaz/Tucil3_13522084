@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
     Label sourceLabel = new Label("Source:");
     Label destinationLabel = new Label("Destination:");
     Label resultLabel = new Label("Result:");
-    Label executionTimeLabel = new Label("Execution Time: ");
+    Label executionTimeLabel = new Label("Time taken: ");
 
     // Layout
     JPanel panel = new JPanel();
@@ -261,7 +261,7 @@ public class MainWindow extends JFrame {
 
         LinkedList<String> result = solution.getSolution();
         double duration = solution.getDuration();
-        executionTimeLabel.setText("Execution Time: " + duration + " ms");
+        executionTimeLabel.setText("Time taken: " + duration + " ms");
         
         int stepNumber = 1;
         for (String node : result) {

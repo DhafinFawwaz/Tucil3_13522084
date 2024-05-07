@@ -1,4 +1,4 @@
-# Tucil 3
+# World Ladder Solver
 
 ## 🛸 Project Overview
 This project contains the implementation of Uniform Cost Search, Greedy Best First Search, and A Star (A*) algorithm to solve a game called world ladders. The 
@@ -9,6 +9,9 @@ https://wordwormdormdork.com/
 
 ## 📝 Requirements
 * Java: make sure java is installed in your device to run the project.
+
+## 🚨 QuickStart
+This only works if you use windows and all requirements is installed. Simply double click the run.bat. If this does not work, please start from the Preprocess or GUI section.
 
 ## 🖼️ Screenshots
 

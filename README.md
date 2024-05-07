@@ -11,7 +11,7 @@ https://wordwormdormdork.com/
 * Java: make sure java is installed in your device to run the project.
 
 ## 🚨 QuickStart
-This only works if you use windows and all requirements is installed. Simply double click the run.bat. If this does not work, please start from the Preprocess or GUI section.
+This only works if you use windows and all requirements is installed. Simply double click the `run.bat`. If this does not work, please start from the Preprocess or GUI section.
 
 ## 🖼️ Screenshots
 
